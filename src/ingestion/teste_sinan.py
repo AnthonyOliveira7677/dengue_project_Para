@@ -1,4 +1,3 @@
-# Teste inicial de ingestão de dados do SINAN
 import requests
 import pandas as pd
 
