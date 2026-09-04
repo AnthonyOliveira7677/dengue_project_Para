@@ -1,3 +1,4 @@
+# Teste inicial de ingestão de dados do SINAN
 import requests
 import pandas as pd
 
@@ -15,7 +16,6 @@ try:
     print("\nTipo da resposta:")
     print(type(dados))
 
-    # Se a API retornar diretamente uma lista
     if isinstance(dados, list):
         print("\nQuantidade de registros retornados:", len(dados))
 
@@ -28,12 +28,10 @@ try:
             print("\nColunas encontradas:")
             print(df.columns.tolist())
 
-    # Se a API retornar um objeto com paginação/metadados
     elif isinstance(dados, dict):
         print("\nChaves principais da resposta:")
         print(dados.keys())
 
-        # Mostra uma parte da resposta para entendermos a estrutura
         for chave, valor in dados.items():
             print("\nChave:", chave)
 
