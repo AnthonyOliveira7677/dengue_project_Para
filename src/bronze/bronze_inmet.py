@@ -12,9 +12,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
-# ============================================================
-# 1. CONFIGURAÇÕES
-# ============================================================
+
 
 ANO = 2024
 
@@ -37,9 +35,7 @@ data_particao = ingestion_timestamp.strftime(
 )
 
 
-# ============================================================
-# 2. PASTAS
-# ============================================================
+
 
 pasta_base = Path(
     "data/bronze/inmet"
@@ -79,9 +75,6 @@ pasta_quarentena.mkdir(
 )
 
 
-# ============================================================
-# 3. RETRY + BACKOFF
-# ============================================================
 
 retry = Retry(
     total=5,
@@ -110,9 +103,6 @@ session.mount(
 )
 
 
-# ============================================================
-# 4. DOWNLOAD DO ZIP
-# ============================================================
 
 print("Iniciando Bronze do INMET...")
 
@@ -202,9 +192,7 @@ print(
 )
 
 
-# ============================================================
-# 5. LISTA ARQUIVOS DO ZIP
-# ============================================================
+
 
 with zipfile.ZipFile(
     arquivo_zip,
@@ -224,9 +212,7 @@ print(
 )
 
 
-# ============================================================
-# 6. QUARENTENA
-# ============================================================
+
 
 arquivo_quarentena = (
     pasta_quarentena
@@ -254,9 +240,7 @@ escritor_quarentena.writerow(
 )
 
 
-# ============================================================
-# 7. PROCESSA CADA ESTAÇÃO
-# ============================================================
+
 
 total_registros = 0
 total_invalidos = 0
@@ -349,9 +333,7 @@ with zipfile.ZipFile(
             )
 
 
-            # --------------------------------------------
-            # ARQUIVO BRONZE DA ESTAÇÃO
-            # --------------------------------------------
+            
 
             nome_seguro = (
                 Path(nome_arquivo)
@@ -412,7 +394,7 @@ with zipfile.ZipFile(
                     start=10
                 ):
 
-                    # Validação apenas estrutural/técnica.
+                    
                     if len(linha) != quantidade_colunas:
 
                         invalidos_estacao += 1
@@ -482,9 +464,7 @@ with zipfile.ZipFile(
             )
 
 
-# ============================================================
-# 8. FECHA QUARENTENA
-# ============================================================
+
 
 quarentena.close()
 
@@ -496,9 +476,7 @@ if total_invalidos == 0:
     )
 
 
-# ============================================================
-# 9. MANIFESTO GERAL
-# ============================================================
+
 
 manifesto = {
     "load_id": load_id,

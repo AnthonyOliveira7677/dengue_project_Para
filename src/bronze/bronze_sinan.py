@@ -13,9 +13,6 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
-# ============================================================
-# 1. CONFIGURAÇÕES
-# ============================================================
 
 ANO = 2024
 
@@ -39,9 +36,6 @@ data_particao = ingestion_timestamp.strftime(
 )
 
 
-# ============================================================
-# 2. PASTAS
-# ============================================================
 
 pasta_base = Path(
     "data/bronze/sinan"
@@ -81,9 +75,6 @@ pasta_quarentena.mkdir(
 )
 
 
-# ============================================================
-# 3. RETRY + BACKOFF
-# ============================================================
 
 retry = Retry(
     total=5,
@@ -112,9 +103,6 @@ session.mount(
 )
 
 
-# ============================================================
-# 4. DOWNLOAD DO ARQUIVO BRUTO
-# ============================================================
 
 print("Iniciando Bronze do SINAN...")
 
@@ -204,9 +192,7 @@ print(
 )
 
 
-# ============================================================
-# 5. ABRE O ZIP
-# ============================================================
+
 
 with zipfile.ZipFile(
     arquivo_zip,
@@ -240,9 +226,7 @@ with zipfile.ZipFile(
     )
 
 
-# ============================================================
-# 6. CAMINHO DA BRONZE POR REGISTRO
-# ============================================================
+
 
 arquivo_bronze = (
     pasta_records
@@ -261,9 +245,7 @@ arquivo_quarentena = (
 )
 
 
-# ============================================================
-# 7. PROCESSA O CSV EM STREAMING
-# ============================================================
+
 
 print(
     "\nCriando registros Bronze..."
@@ -325,9 +307,7 @@ with zipfile.ZipFile(
         )
 
 
-        # --------------------------------------------
-        # ARQUIVO BRONZE
-        # --------------------------------------------
+       
 
         with gzip.open(
             arquivo_bronze,
@@ -346,9 +326,8 @@ with zipfile.ZipFile(
             )
 
 
-            # ----------------------------------------
-            # QUARENTENA
-            # ----------------------------------------
+            
+            
 
             with arquivo_quarentena.open(
                 "w",
@@ -370,17 +349,14 @@ with zipfile.ZipFile(
                 )
 
 
-                # ------------------------------------
-                # PERCORRE OS REGISTROS
-                # ------------------------------------
+               
 
                 for numero_linha, linha in enumerate(
                     leitor,
                     start=2
                 ):
 
-                    # Validação puramente técnica.
-                    # Não há regra de negócio aqui.
+                   
 
                     if len(linha) != quantidade_colunas_originais:
 
@@ -401,8 +377,7 @@ with zipfile.ZipFile(
                         continue
 
 
-                    # Hash somente dos valores originais.
-                    # Os metadados não participam do hash.
+                
 
                     conteudo_hash = json.dumps(
                         linha,
@@ -457,9 +432,7 @@ with zipfile.ZipFile(
                         )
 
 
-# ============================================================
-# 8. REMOVE QUARENTENA VAZIA
-# ============================================================
+
 
 if quantidade_invalidos == 0:
 
@@ -468,9 +441,6 @@ if quantidade_invalidos == 0:
     )
 
 
-# ============================================================
-# 9. MANIFESTO DA CARGA
-# ============================================================
 
 manifesto = {
     "load_id": load_id,
@@ -525,9 +495,6 @@ with arquivo_manifesto.open(
     )
 
 
-# ============================================================
-# 10. RESUMO
-# ============================================================
 
 print(
     "\n========================================"

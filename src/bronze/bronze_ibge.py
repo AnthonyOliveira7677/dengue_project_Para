@@ -9,9 +9,6 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
-# ============================================================
-# 1. CONFIGURAÇÕES
-# ============================================================
 
 SOURCE_SYSTEM = "IBGE"
 SOURCE_OBJECT = "API Localidades - Municipios do Para"
@@ -21,10 +18,9 @@ URL = (
     "api/v1/localidades/estados/15/municipios"
 )
 
-# Identificador único desta execução
 load_id = str(uuid.uuid4())
 
-# Horário UTC da ingestão
+
 ingestion_timestamp = datetime.now(timezone.utc)
 
 data_particao = ingestion_timestamp.strftime("%Y-%m-%d")
