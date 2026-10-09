@@ -4,7 +4,7 @@ Projeto de Ciência de Dados da faculdade para análise do risco de dengue nos m
 
 ## Pergunta de pesquisa
 
-Quais municípios do Pará apresentam maior risco de dengue e quais fatores estão associados a esse risco?
+Quais municípios do Pará apresentam maior risco de dengue e quais fatores estão associados a esse risco em 2024?
 
 ## Objetivo
 
